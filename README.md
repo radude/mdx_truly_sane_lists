@@ -1,14 +1,19 @@
 # Mdx Truly Sane Lists
-An extension for Python-Markdown that makes lists truly sane. Features custom indents for nested lists and fix for messy linebreaks and paragraphs between lists.
+An extension for [Python-Markdown](https://github.com/Python-Markdown/markdown) that makes lists truly sane. Features custom indents for nested lists and fix for messy linebreaks and paragraphs between lists.
 
 
 ## Features
 
-* `nested_indent` option: Custom indent for nested lists. Defaults to 2. Doesn't mess with code indents, which is still 4. 
+* `nested_indent` option: Custom indent for nested lists. Defaults to `2`. Doesn't mess with code indents, which is still 4. 
 
-* `sane` option: Makes linebreaks and paragraphs in lists behave as usually expected by user. I.e. no longer adds weird `p`, no extra linebreaks, no longer fuses lists together when they shouldn't be fused (see screenshots and examples below). Defaults to `True`.
+* `sane` option: Makes linebreaks and paragraphs in lists behave as usually expected by user. No longer adds weird `p`, no extra linebreaks, no longer fuses lists together when they shouldn't be fused (see screenshots and examples below). Defaults to `True`.
 
 * Inherits [sane lists](https://python-markdown.github.io/extensions/sane_lists/) behavior, which doesn't allow the mixing of ordered and unordered lists.
+
+
+## Installation
+
+Pypi, manual and blah blah. TBD
 
 ## Usage
 
