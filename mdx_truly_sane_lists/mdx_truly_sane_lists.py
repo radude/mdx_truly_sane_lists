@@ -32,7 +32,7 @@ def makeExtension(*args, **kwargs):
 
 
 class TrulySaneBlockProcessorMixin(BlockProcessor):
-    truly_sane_tab_length = 4
+    truly_sane_tab_length = 2
 
     def __init__(self, parser):
         super(TrulySaneBlockProcessorMixin, self).__init__(parser)
