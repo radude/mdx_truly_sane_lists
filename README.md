@@ -21,7 +21,7 @@ from markdown import markdown
 markdown(text='some text', extensions=['mdx_truly_sane_lists']) 
 ```
 
-With custom config (disables sane and returns indents back to 4 spaces):
+With config:
 
 ```python
 from markdown import markdown
@@ -32,8 +32,8 @@ markdown(text='some text',
          ],
          extension_configs={
              'mdx_truly_sane_lists': {
-                 'nested_indent': 4,
-                 'sane': False,
+                 'nested_indent': 2,
+                 'sane': True,
              }},
          )
 ```
