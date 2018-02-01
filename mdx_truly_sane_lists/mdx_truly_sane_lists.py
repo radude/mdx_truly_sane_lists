@@ -1,7 +1,5 @@
 """
 https://github.com/radude/mdx_linkify
-
-TODO: tests
 """
 
 from markdown import Extension, util
