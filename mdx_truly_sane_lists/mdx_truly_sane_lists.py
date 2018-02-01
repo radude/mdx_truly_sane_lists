@@ -27,6 +27,10 @@ class TrulySaneListExtension(Extension):
         md.parser.blockprocessors['indent'] = TrulySaneListIndentProcessor(md.parser)
 
 
+def makeExtension(*args, **kwargs):
+    return TrulySaneListExtension(*args, **kwargs)
+
+
 class TrulySaneBlockProcessorMixin(BlockProcessor):
     truly_sane_tab_length = 4
 
