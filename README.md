@@ -18,10 +18,10 @@ Basic:
 from markdown import markdown
 
 # Default config is sane: Tue, nested_lists: 2
-markdown(text='some text', extensions=[ 'mdx_truly_sane_lists']) 
+markdown(text='some text', extensions=['mdx_truly_sane_lists']) 
 ```
 
-With custom config:
+With custom config (disables sane and returns indents back to 4 spaces):
 
 ```python
 from markdown import markdown
