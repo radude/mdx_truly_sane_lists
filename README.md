@@ -32,7 +32,7 @@ from markdown import markdown
 markdown(text='some text', extensions=['mdx_truly_sane_lists']) 
 ```
 
-With config:
+With explicit config:
 
 ```python
 from markdown import markdown
