@@ -15,6 +15,12 @@ An extension for [Python-Markdown](https://github.com/Python-Markdown/markdown) 
 
 Pypi, manual and blah blah. TBD
 
+Directly from git:
+
+```console
+pip install git+git://github.com/radude/mdx_truly_sane_lists
+```
+
 ## Usage
 
 Basic:
