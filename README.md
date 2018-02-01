@@ -1,4 +1,4 @@
-# mdx_truly_sane_lists
+# Mdx Truly Sane Lists
 An extension for Python-Markdown that makes lists truly sane. Features custom indents for nested lists and fix for messy linebreaks and paragraphs between lists.
 
 
@@ -40,5 +40,5 @@ markdown(text='some text',
 
 ## Screenshots and examples
 
-TBD
-
+TBD  
+Live TBD
