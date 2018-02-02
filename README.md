@@ -1,4 +1,8 @@
 # Mdx Truly Sane Lists
+
+[![Build Status](https://travis-ci.org/radude/mdx_truly_sane_lists.svg?branch=master)](https://travis-ci.org/radude/mdx_truly_sane_lists)
+
+
 An extension for [Python-Markdown](https://github.com/Python-Markdown/markdown) that makes lists truly sane. Features custom indents for nested lists and fix for messy linebreaks and paragraphs between lists.
 
 
