@@ -1,0 +1,10 @@
+language: python
+python:
+    - "3.3"
+    - "pypy"
+install:
+    - pip install coveralls
+script:
+    - coverage run --source=mdx_truly_sane_lists setup.py test
+after_success:
+    - coveralls
