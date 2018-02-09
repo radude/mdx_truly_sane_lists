@@ -2,9 +2,10 @@
 https://github.com/radude/mdx_linkify
 """
 
-from markdown import Extension, util
-from markdown.blockprocessors import OListProcessor, UListProcessor, ListIndentProcessor, BlockProcessor
 import re
+
+from markdown import Extension, util
+from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
 
 
 class TrulySaneListExtension(Extension):
@@ -31,77 +32,26 @@ def makeExtension(*args, **kwargs):
 
 class TrulySaneBlockProcessorMixin(BlockProcessor):
     truly_sane_tab_length = 2
+    truly_sane = True
 
     def __init__(self, parser):
         super(TrulySaneBlockProcessorMixin, self).__init__(parser)
-
-    def detab(self, text):
-        newtext = []
-        lines = text.split('\n')
-        for line in lines:
-            if line.startswith(' ' * self.truly_sane_tab_length):
-                newtext.append(line[self.truly_sane_tab_length:])
-            elif not line.strip():
-                newtext.append('')
-            else:
-                break
-        return '\n'.join(newtext), '\n'.join(lines[len(newtext):])
-
-    def looseDetab(self, text, level=1):
-        lines = text.split('\n')
-        for i in range(len(lines)):
-            if lines[i].startswith(' ' * self.truly_sane_tab_length * level):
-                lines[i] = lines[i][self.truly_sane_tab_length * level:]
-        return '\n'.join(lines)
+        self.tab_length = self.truly_sane_tab_length
 
 
 class TrulySaneListIndentProcessor(ListIndentProcessor, TrulySaneBlockProcessorMixin):
-    ITEM_TYPES = ['li']
-    LIST_TYPES = ['ul', 'ol']
 
     def __init__(self, *args):
         super(TrulySaneListIndentProcessor, self).__init__(*args)
-        self.INDENT_RE = re.compile(r'^(([ ]{%s})+)' % self.truly_sane_tab_length)
-
-    def test(self, parent, block):
-        return block.startswith(' ' * self.truly_sane_tab_length) and \
-               not self.parser.state.isstate('detabbed') and \
-               (parent.tag in self.ITEM_TYPES or
-                (len(parent) and parent[-1] is not None and
-                 (parent[-1].tag in self.LIST_TYPES)))
-
-    def get_level(self, parent, block):
-        m = self.INDENT_RE.match(block)
-        if m:
-            indent_level = len(m.group(1)) / self.truly_sane_tab_length
-        else:
-            indent_level = 0
-        if self.parser.state.isstate('list'):
-            level = 1
-        else:
-            level = 0
-        while indent_level > level:
-            child = self.lastChild(parent)
-            if (child is not None and
-                    (child.tag in self.LIST_TYPES or child.tag in self.ITEM_TYPES)):
-                if child.tag in self.LIST_TYPES:
-                    level += 1
-                parent = child
-            else:
-                break
-        return level, parent
 
 
 class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
-    SIBLING_TAGS = ['ol']
+    SIBLING_TAGS = ['ol']  # from sane lists
 
     def __init__(self, *args, **kwargs):
 
         super(TrulySaneOListProcessor, self).__init__(*args, **kwargs)
-        self.RE = re.compile(r'^[ ]{0,%d}\d+\.[ ]+(.*)' % (self.truly_sane_tab_length - 1))
-        # self.CHILD_RE = re.compile(r'^[ ]{0,%d}((\d+\.)|[*+-])[ ]+(.*)' % (self.truly_sane_tab_length - 1))  # original re
-        self.CHILD_RE = re.compile(r'^[ ]{0,%d}((\d+\.))[ ]+(.*)' % (self.truly_sane_tab_length - 1))  # taken from sane_lists
-        self.INDENT_RE = re.compile(r'^[ ]{%d,%d}((\d+\.)|[*+-])[ ]+.*' % (self.truly_sane_tab_length, self.truly_sane_tab_length * 2 - 1))
+        self.CHILD_RE = re.compile(r'^[ ]{0,%d}((\d+\.))[ ]+(.*)' % (self.tab_length - 1))  # from sane_lists
 
     def run(self, parent, blocks):
 
@@ -135,7 +85,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
 
         self.parser.state.set('list')
         for item in items:
-            if item.startswith(' ' * self.truly_sane_tab_length):
+            if item.startswith(' ' * self.tab_length):
                 self.parser.parseBlocks(lst[-1], [item])
             else:
                 li = util.etree.SubElement(lst, 'li')
@@ -149,9 +99,5 @@ class TrulySaneUListProcessor(TrulySaneOListProcessor, TrulySaneBlockProcessorMi
 
     def __init__(self, parser):
         super(TrulySaneUListProcessor, self).__init__(parser)
-        self.RE = re.compile(r'^[ ]{0,%d}[*+-][ ]+(.*)' % (self.truly_sane_tab_length - 1))
-        self.CHILD_RE = re.compile(r'^[ ]{0,%d}(([*+-]))[ ]+(.*)' % (self.truly_sane_tab_length - 1))  # taken from sane_lists
-
-
-def makeExtension(*args, **kwargs):
-    return TrulySaneListExtension(*args, **kwargs)
+        self.RE = re.compile(r'^[ ]{0,%d}[*+-][ ]+(.*)' % (self.tab_length - 1))
+        self.CHILD_RE = re.compile(r'^[ ]{0,%d}(([*+-]))[ ]+(.*)' % (self.tab_length - 1))  # from sane_lists
