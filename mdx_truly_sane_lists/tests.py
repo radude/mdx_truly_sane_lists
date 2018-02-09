@@ -36,6 +36,66 @@ class TrulySaneListTest(unittest.TestCase):
         actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
         self.assertEqual(expected, actual)
 
+    def test_truly_insane(self):
+        raw = '''
+        + attributes
+
+        - customer 
+          + first_name
+          + family_name
+          + email
+        - person
+          + first_name
+          + family_name
+          + birth_date
+        - subscription_id
+
+        + request
+        '''
+        expected = '<ul>\n<li>\n<p>attributes</p>\n</li>\n<li>\n<p>customer </p>\n<ul>\n<li>first_name</li>\n<li>family_name</li>\n<li>email</li>\n</ul>\n</li>\n<li>person<ul>\n<li>first_name</li>\n<li>family_name</li>\n<li>birth_date</li>\n</ul>\n</li>\n<li>\n<p>subscription_id</p>\n</li>\n<li>\n<p>request</p>\n</li>\n</ul>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"], extension_configs={'mdx_truly_sane_lists': {'truly_sane': False}})
+        self.assertEqual(expected, actual)
+
+    def test_indent_4_with_2_data(self):
+        raw = '''
+        + attributes
+
+        - customer 
+          + first_name
+          + family_name
+          + email
+        - person
+          + first_name
+          + family_name
+          + birth_date
+        - subscription_id
+
+        + request
+        '''
+        expected = '<ul>\n<li>attributes</li>\n</ul>\n<ul>\n<li>customer </li>\n<li>first_name</li>\n<li>family_name</li>\n<li>email</li>\n<li>person</li>\n<li>first_name</li>\n<li>family_name</li>\n<li>birth_date</li>\n<li>subscription_id</li>\n</ul>\n<ul>\n<li>request</li>\n</ul>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"], extension_configs={'mdx_truly_sane_lists': {'nested_indent': 4}})
+        self.assertEqual(expected, actual)
+
+    def test_indent_4_with_4_data(self):
+        raw = '''
+        + attributes
+
+        - customer 
+            + first_name
+            + family_name
+            + email
+        - person
+            + first_name
+            + family_name
+            + birth_date
+        - subscription_id
+
+        + request
+        '''
+        expected = '<ul>\n<li>attributes</li>\n</ul>\n<ul>\n<li>customer <ul>\n<li>first_name</li>\n<li>family_name</li>\n<li>email</li>\n</ul>\n</li>\n<li>person<ul>\n<li>first_name</li>\n<li>family_name</li>\n<li>birth_date</li>\n</ul>\n</li>\n<li>subscription_id</li>\n</ul>\n<ul>\n<li>request</li>\n</ul>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"], extension_configs={'mdx_truly_sane_lists': {'nested_indent': 4}})
+        self.assertEqual(expected, actual)
+
     def test_sane(self):
         raw = '''
         1. Ordered
