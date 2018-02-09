@@ -32,7 +32,7 @@ Basic:
 ```python
 from markdown import markdown
 
-# Default config is truly_sane: True, nested_lists: 2
+# Default config is truly_sane: True, nested_indent: 2
 markdown(text='some text', extensions=['mdx_truly_sane_lists']) 
 ```
 
