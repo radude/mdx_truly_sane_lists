@@ -12,12 +12,12 @@ def get_readme(filename):
 
 
 setup(name="mdx_truly_sane_lists",
-      version="0.0",
+      version="1.0",
       author='radude',
       author_email='admin@rentry.co',
       description="Extension for Python-Markdown that makes lists truly sane. Custom indents for nested lists and fix for messy linebreaks.",
       license="MIT",
-      keywords="markdown extension",
+      keywords=["markdown extension", 'markup', 'lists'],
       url="https://github.com/radude/mdx_truly_sane_lists",
       packages=["mdx_truly_sane_lists"],
       long_description=get_readme("README.md"),
