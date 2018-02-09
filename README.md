@@ -17,7 +17,11 @@ An extension for [Python-Markdown](https://github.com/Python-Markdown/markdown) 
 
 ## Installation
 
-Pypi, manual and blah blah. TBD
+Pypi:
+
+```
+TBD
+```
 
 Directly from git:
 
@@ -55,5 +59,10 @@ markdown(text='some text',
 
 ## Screenshots and examples
 
-TBD  
-Live TBD
+You can preview the new behaviour live at [rentry.co](https://rentry.co/) (uses `nested_indent: 2, truly_sane: True`)
+
+
+Some ugly screenshots because I'm lazy and cannot into gimp:
+
+![](https://i.imgur.com/7l2bWLY.png)
+![](https://i.imgur.com/Ruwfb2A.png)
