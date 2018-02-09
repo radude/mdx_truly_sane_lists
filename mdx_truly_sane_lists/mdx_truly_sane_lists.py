@@ -12,12 +12,12 @@ class TrulySaneListExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
             "nested_indent": [2, 'Sets indent for nested lists. Defaults to 2'],
-            "sane": [True, "True to stop messing up paragraps and linebreaks. Defaults to True"],
+            "truly_sane": [True, "True to stop messing up paragraps and linebreaks. Defaults to True"],
         }
 
         super(TrulySaneListExtension, self).__init__(*args, **kwargs)
         TrulySaneBlockProcessorMixin.truly_sane_tab_length = self.getConfigs()['nested_indent']
-        TrulySaneBlockProcessorMixin.sane = self.getConfigs()['sane']
+        TrulySaneBlockProcessorMixin.truly_sane = self.getConfigs()['truly_sane']
 
     def extendMarkdown(self, md, md_globals):
         md.parser.blockprocessors['olist'] = TrulySaneOListProcessor(md.parser)
@@ -108,7 +108,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
         items = self.get_items(blocks.pop(0))
         sibling = self.lastChild(parent)
 
-        if not self.sane and (sibling is not None and sibling.tag in self.SIBLING_TAGS):
+        if not self.truly_sane and (sibling is not None and sibling.tag in self.SIBLING_TAGS):
             lst = sibling
             if lst[-1].text:
                 p = util.etree.Element('p')
