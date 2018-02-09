@@ -17,16 +17,16 @@ An extension for [Python-Markdown](https://github.com/Python-Markdown/markdown) 
 
 ## Installation
 
-Pypi:
-
-```
-TBD
-```
-
-Directly from git:
+##### [Pypi](https://pypi.python.org/pypi/mdx-truly-sane-lists):
 
 ```console
-pip install git+git://github.com/radude/mdx_truly_sane_lists
+pip3 install mdx_truly_sane_lists
+```
+
+##### Directly from git:
+
+```console
+pip3 install git+git://github.com/radude/mdx_truly_sane_lists
 ```
 
 ## Usage
