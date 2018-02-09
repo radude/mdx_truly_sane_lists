@@ -1,5 +1,5 @@
 """
-https://github.com/radude/mdx_linkify
+https://github.com/radude/mdx_truly_sane_lists
 """
 
 import re
