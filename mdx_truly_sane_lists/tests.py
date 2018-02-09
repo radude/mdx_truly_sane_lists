@@ -119,6 +119,28 @@ class TrulySaneListTest(unittest.TestCase):
         actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
         self.assertEqual(expected, actual)
 
+    def test_with_code(self):
+        raw = '''
+        - customer 
+          + first_name
+          + family_name
+          + email
+            
+        Text
+        
+            code
+            code
+            
+        Text
+        
+          Not code
+          Not code
+
+        '''
+        expected = '<ul>\n<li>customer <ul>\n<li>first_name</li>\n<li>family_name</li>\n<li>email</li>\n</ul>\n</li>\n</ul>\n<p>Text</p>\n<pre><code>code\ncode\n</code></pre>\n<p>Text</p>\n<p>Not code\n  Not code</p>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
+        self.assertEqual(expected, actual)
+
 
 if __name__ == "__main__":
     unittest.main()
