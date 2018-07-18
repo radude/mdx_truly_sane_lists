@@ -1,3 +1,3 @@
-from mdx_truly_sane_lists.mdx_truly_sane_lists import makeExtension
+from .mdx_truly_sane_lists import makeExtension
 
 assert makeExtension
