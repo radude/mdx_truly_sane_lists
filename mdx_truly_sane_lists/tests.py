@@ -141,6 +141,41 @@ class TrulySaneListTest(unittest.TestCase):
         actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
         self.assertEqual(expected, actual)
 
+    def test_ordered(self):
+        raw = '''
+            1. one
+            2. two
+            3. three
+        '''
+        expected = '<ol>\n<li>one</li>\n<li>two</li>\n<li>three</li>\n</ol>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
+        self.assertEqual(expected, actual)
+
+    def test_ordered_with_empty_lines(self):
+        raw='''
+        1. one
+
+        2. two
+
+        3. three
+
+        '''
+        expected = '<ol>\n<li>\n<p>one</p>\n</li>\n<li>\n<p>two</p>\n</li>\n<li>\n<p>three</p>\n</li>\n</ol>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"])
+        self.assertEqual(expected, actual)
+
+    def test_ordered_with_empty_lines_not_sane(self):
+        raw='''
+        1. one
+
+        2. two
+
+        3. three
+
+        '''
+        expected = '<ol>\n<li>\n<p>one</p>\n</li>\n<li>\n<p>two</p>\n</li>\n<li>\n<p>three</p>\n</li>\n</ol>'
+        actual = markdown(dedent(raw), extensions=["mdx_truly_sane_lists"], extension_configs={'mdx_truly_sane_lists': {'truly_sane': False}})
+        self.assertEqual(expected, actual)
 
 if __name__ == "__main__":
     unittest.main()
