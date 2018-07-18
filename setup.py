@@ -21,6 +21,7 @@ setup(name="mdx_truly_sane_lists",
       url="https://github.com/radude/mdx_truly_sane_lists",
       packages=["mdx_truly_sane_lists"],
       long_description=get_readme("README.md"),
+      long_description_content_type='text/markdown',
       classifiers=[
           "Topic :: Text Processing :: Markup",
           "Topic :: Utilities",
