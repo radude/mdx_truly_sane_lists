@@ -66,3 +66,76 @@ Some ugly screenshots because I'm lazy and cannot into gimp:
 
 ![](https://i.imgur.com/7l2bWLY.png)
 ![](https://i.imgur.com/Ruwfb2A.png)
+
+## HTML
+
+Data:
+```markdown
+- attributes
+ 
+- customer 
+    - first_name
+    - family_name
+    - email
+- person
+    - first_name
+    - family_name
+    - birth_date
+- subscription_id
+
+- request
+```
+
+No extension:
+```html before
+<ul>
+<li>
+<p>attributes</p>
+</li>
+<li>
+<p>customer </p>
+<ul>
+<li>first_name</li>
+<li>family_name</li>
+<li>email</li>
+</ul>
+</li>
+<li>person<ul>
+<li>first_name</li>
+<li>family_name</li>
+<li>birth_date</li>
+</ul>
+</li>
+<li>
+<p>subscription_id</p>
+</li>
+<li>
+<p>request</p>
+</li>
+</ul>
+```
+
+Truly sane + 4 spaces:
+```html
+<ul>
+<li>attributes</li>
+</ul>
+<ul>
+<li>customer <ul>
+<li>first_name</li>
+<li>family_name</li>
+<li>email</li>
+</ul>
+</li>
+<li>person<ul>
+<li>first_name</li>
+<li>family_name</li>
+<li>birth_date</li>
+</ul>
+</li>
+<li>subscription_id</li>
+</ul>
+<ul>
+<li>request</li>
+</ul>
+```
