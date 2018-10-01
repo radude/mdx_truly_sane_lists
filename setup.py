@@ -12,7 +12,7 @@ def get_readme(filename):
 
 
 setup(name="mdx_truly_sane_lists",
-      version="1.1",
+      version="1.2",
       author='radude',
       author_email='admin@rentry.co',
       description="Extension for Python-Markdown that makes lists truly sane. Custom indents for nested lists and fix for messy linebreaks.",

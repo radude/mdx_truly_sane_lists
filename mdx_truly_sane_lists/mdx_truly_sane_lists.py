@@ -5,6 +5,7 @@ https://github.com/radude/mdx_truly_sane_lists
 import re
 
 from markdown import Extension, util
+from markdown import version as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
 
 
@@ -20,10 +21,21 @@ class TrulySaneListExtension(Extension):
         TrulySaneBlockProcessorMixin.truly_sane_tab_length = self.getConfigs()['nested_indent']
         TrulySaneBlockProcessorMixin.truly_sane = self.getConfigs()['truly_sane']
 
-    def extendMarkdown(self, md, md_globals):
+    def _extendMarkdown3(self, md):
+        md.parser.blockprocessors.register(TrulySaneOListProcessor(md.parser), 'olist', 50)
+        md.parser.blockprocessors.register(TrulySaneUListProcessor(md.parser), 'ulist', 40)
+        md.parser.blockprocessors.register(TrulySaneListIndentProcessor(md.parser), 'indent', 95)
+
+    def _extendMarkdown2(self, md, md_globals):
         md.parser.blockprocessors['olist'] = TrulySaneOListProcessor(md.parser)
         md.parser.blockprocessors['ulist'] = TrulySaneUListProcessor(md.parser)
         md.parser.blockprocessors['indent'] = TrulySaneListIndentProcessor(md.parser)
+
+    # supporting both 2 and 3 version of markdown
+    if md_version >= '3.0':
+        extendMarkdown = _extendMarkdown3
+    else:
+        extendMarkdown = _extendMarkdown2
 
 
 def makeExtension(*args, **kwargs):
@@ -58,7 +70,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
         items = self.get_items(blocks.pop(0))
         sibling = self.lastChild(parent)
 
-        if (sibling is not None and sibling.tag in self.SIBLING_TAGS) and (sibling.tag == 'ol' or not self.truly_sane):
+        if not self.truly_sane and (sibling is not None and sibling.tag in self.SIBLING_TAGS):
             lst = sibling
             if lst[-1].text:
                 p = util.etree.Element('p')
@@ -80,8 +92,12 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
             lst = parent
         else:
             lst = util.etree.SubElement(parent, self.TAG)
-            if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
-                lst.attrib['start'] = self.STARTSWITH
+            if md_version >= '3.0':
+                if not self.LAZY_OL and self.STARTSWITH != '1':
+                    lst.attrib['start'] = self.STARTSWITH
+            else:
+                if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
+                    lst.attrib['start'] = self.STARTSWITH
 
         self.parser.state.set('list')
         for item in items:
