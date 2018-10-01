@@ -70,7 +70,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
         items = self.get_items(blocks.pop(0))
         sibling = self.lastChild(parent)
 
-        if not self.truly_sane and (sibling is not None and sibling.tag in self.SIBLING_TAGS):
+        if (sibling is not None and sibling.tag in self.SIBLING_TAGS) and (sibling.tag == 'ol' or not self.truly_sane):
             lst = sibling
             if lst[-1].text:
                 p = util.etree.Element('p')
