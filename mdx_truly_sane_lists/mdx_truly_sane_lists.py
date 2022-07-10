@@ -7,6 +7,7 @@ import re
 from markdown import Extension, util
 from markdown import version as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
+from markdown.extensions.def_list import DefListProcessor, DefListIndentProcessor
 
 
 class TrulySaneListExtension(Extension):
@@ -24,11 +25,17 @@ class TrulySaneListExtension(Extension):
         md.parser.blockprocessors.register(TrulySaneOListProcessor(md.parser), "olist", 50)
         md.parser.blockprocessors.register(TrulySaneUListProcessor(md.parser), "ulist", 40)
         md.parser.blockprocessors.register(TrulySaneListIndentProcessor(md.parser), "indent", 95)
+        if "deflist" in md.parser.blockprocessors:
+            md.parser.blockprocessors.register(TrulySaneDefListProcessor(md.parser), "deflist", 25)
+            md.parser.blockprocessors.register(TrulySaneDefListIndentProcessor(md.parser), "defindent", 85)
 
     def _extendMarkdown2(self, md, md_globals):
         md.parser.blockprocessors["olist"] = TrulySaneOListProcessor(md.parser)
         md.parser.blockprocessors["ulist"] = TrulySaneUListProcessor(md.parser)
         md.parser.blockprocessors["indent"] = TrulySaneListIndentProcessor(md.parser)
+        if "deflist" in md.parser.blockprocessors:
+            md.parser.blockprocessors["deflist"] = TrulySaneDefListProcessor(md.parser)
+            md.parser.blockprocessors["defindent"] = TrulySaneDefListIndentProcessor(md.parser)
 
     # supporting both 2 and 3 version of markdown
     if md_version >= "3.0":
@@ -115,3 +122,14 @@ class TrulySaneUListProcessor(TrulySaneOListProcessor, TrulySaneBlockProcessorMi
         super(TrulySaneUListProcessor, self).__init__(parser)
         self.RE = re.compile(r"^[ ]{0,%d}[*+-][ ]+(.*)" % (self.tab_length - 1))
         self.CHILD_RE = re.compile(r"^[ ]{0,%d}(([*+-]))[ ]+(.*)" % (self.tab_length - 1))  # from sane_lists
+
+
+class TrulySaneDefListProcessor(DefListProcessor, TrulySaneBlockProcessorMixin):
+    def __init__(self, parser):
+        super(TrulySaneDefListProcessor, self).__init__(parser)
+        self.NO_INDENT_RE = re.compile("^[ ]{{0,{}}}[^ :]".format(self.tab_length - 1))
+
+
+class TrulySaneDefListIndentProcessor(DefListIndentProcessor, TrulySaneBlockProcessorMixin):
+    def __init__(self, parser):
+        super(TrulySaneDefListIndentProcessor, self).__init__(parser)
