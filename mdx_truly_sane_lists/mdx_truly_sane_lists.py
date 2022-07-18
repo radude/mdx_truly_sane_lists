@@ -5,7 +5,12 @@ https://github.com/radude/mdx_truly_sane_lists
 import re
 
 from markdown import Extension, util
-from markdown import version as md_version
+try:
+    # markdown<3.4
+    from markdown import version as md_version
+except ImportError:
+    # markdown>=3.4
+    from markdown.__meta__ import __version__ as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
 from xml import etree
 
