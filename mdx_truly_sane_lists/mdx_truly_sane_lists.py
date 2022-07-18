@@ -1,10 +1,11 @@
+#%%
 """
 https://github.com/radude/mdx_truly_sane_lists
 """
 
 import re
 
-from markdown import Extension, util
+from markdown import Extension
 try:
     # markdown<3.4
     from markdown import version as md_version
