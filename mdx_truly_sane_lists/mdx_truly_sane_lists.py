@@ -5,7 +5,7 @@ https://github.com/radude/mdx_truly_sane_lists
 import re
 
 from markdown import Extension, util
-from markdown import version as md_version
+from markdown import __version__ as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
 
 
