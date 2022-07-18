@@ -5,9 +5,14 @@ https://github.com/radude/mdx_truly_sane_lists
 import re
 
 from markdown import Extension, util
-from markdown import __version__ as md_version
+try:
+    # markdown<3.4
+    from markdown import version as md_version
+except ImportError:
+    # markdown>=3.4
+    from markdown.__meta__ import __version__ as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
-
+from xml.etree import  ElementTree as etree
 
 class TrulySaneListExtension(Extension):
 
@@ -73,17 +78,17 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
         if (sibling is not None and sibling.tag in self.SIBLING_TAGS) and (sibling.tag == 'ol' or not self.truly_sane):
             lst = sibling
             if lst[-1].text:
-                p = util.etree.Element('p')
+                p = etree.Element('p')
                 p.text = lst[-1].text
                 lst[-1].text = ''
                 lst[-1].insert(0, p)
             lch = self.lastChild(lst[-1])
             if lch is not None and lch.tail:
-                p = util.etree.SubElement(lst[-1], 'p')
+                p = etree.SubElement(lst[-1], 'p')
                 p.text = lch.tail.lstrip()
                 lch.tail = ''
 
-            li = util.etree.SubElement(lst, 'li')
+            li = etree.SubElement(lst, 'li')
             self.parser.state.set('looselist')
             firstitem = items.pop(0)
             self.parser.parseBlocks(li, [firstitem])
@@ -91,7 +96,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
         elif parent.tag in ['ol', 'ul']:
             lst = parent
         else:
-            lst = util.etree.SubElement(parent, self.TAG)
+            lst = etree.SubElement(parent, self.TAG)
             if md_version >= '3.0':
                 if not self.LAZY_OL and self.STARTSWITH != '1':
                     lst.attrib['start'] = self.STARTSWITH
@@ -104,7 +109,7 @@ class TrulySaneOListProcessor(OListProcessor, TrulySaneBlockProcessorMixin):
             if item.startswith(' ' * self.tab_length):
                 self.parser.parseBlocks(lst[-1], [item])
             else:
-                li = util.etree.SubElement(lst, 'li')
+                li = etree.SubElement(lst, 'li')
                 self.parser.parseBlocks(li, [item])
         self.parser.state.reset()
 
