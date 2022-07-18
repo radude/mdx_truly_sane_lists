@@ -12,7 +12,7 @@ except ImportError:
     # markdown>=3.4
     from markdown.__meta__ import __version__ as md_version
 from markdown.blockprocessors import OListProcessor, ListIndentProcessor, BlockProcessor
-from xml import etree
+from xml.etree import  ElementTree as etree
 
 class TrulySaneListExtension(Extension):
 
