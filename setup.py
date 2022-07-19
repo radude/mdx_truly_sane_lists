@@ -24,7 +24,7 @@ setup(name="mdx_truly_sane_lists",
       long_description_content_type='text/markdown',
       classifiers=[
           "Topic :: Text Processing :: Markup",
-          "Topic :: Text Processing :: Markdown",
+          "Topic :: Text Processing :: Markup :: Markdown",
           "Topic :: Utilities",
           "Programming Language :: Python :: 3.3",
           "Programming Language :: Python :: 3.4",
