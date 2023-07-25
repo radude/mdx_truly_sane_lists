@@ -7,7 +7,7 @@ import re
 from markdown import Extension
 try:
     # markdown<3.4
-    from markdown import version as md_version
+    from markdown import __version__ as md_version
 except ImportError:
     # markdown>=3.4
     from markdown.__meta__ import __version__ as md_version
